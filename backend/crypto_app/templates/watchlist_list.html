@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Watchlist</h2>
+<ul>
+  {% for item in object_list %}
+    <li>{{ item.user.username }}: {{ item.symbol }} (added at {{ item.added_at }})</li>
+  {% endfor %}
+</ul>
+{% endblock %} 

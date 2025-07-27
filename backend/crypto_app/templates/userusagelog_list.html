@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>User Usage Logs</h2>
+<ul>
+  {% for log in object_list %}
+    <li>{{ log.user.username }}: {{ log.action }} at {{ log.timestamp }} ({{ log.details }})</li>
+  {% endfor %}
+</ul>
+{% endblock %} 

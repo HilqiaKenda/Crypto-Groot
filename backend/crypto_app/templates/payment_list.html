@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Payments</h2>
+<ul>
+  {% for payment in object_list %}
+    <li>{{ payment.user.username }} paid ${{ payment.amount }} for {{ payment.plan.name }} on {{ payment.timestamp }} ({{ payment.status }})</li>
+  {% endfor %}
+</ul>
+{% endblock %} 

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Subscription Plan</h2>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+<a href="{% url 'subscriptionplan-list' %}">Back to Plans</a>
+{% endblock %} 

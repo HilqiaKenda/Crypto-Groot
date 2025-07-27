@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ object.name }}</h2>
+<p>Price: ${{ object.price }}</p>
+<p>Duration: {{ object.duration_days }} days</p>
+<p>Description: {{ object.description }}</p>
+<p>Status: {% if object.is_active %}Active{% else %}Inactive{% endif %}</p>
+<a href="{% url 'subscriptionplan-list' %}">Back to Plans</a>
+{% endblock %} 

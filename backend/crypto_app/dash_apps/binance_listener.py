@@ -45,7 +45,7 @@ def fetch_initial_candles(symbol, interval="1m", limit=100):
         } for k in klines]
 
         symbol_candles[symbol] = pd.DataFrame(data)
-        print(f"Fetched historical candles for {symbol.upper()}")
+        # print(f"Fetched historical candles for {symbol.upper()}")
     except Exception as e:
         print(f"Failed to fetch initial candles for {symbol.upper()}: {e}")
 
@@ -54,7 +54,7 @@ def start_ws(symbols=symbols, interval="1m"):
         stream_names = [f"{s}@kline_{interval}" for s in symbols]
         streams = "/".join(stream_names)
         uri = f"wss://stream.binance.com:9443/stream?streams={streams}"
-        print(f"Connecting to Binance WebSocket for {len(symbols)} symbols...")
+        # print(f"Connecting to Binance WebSocket for {len(symbols)} symbols...")
 
         async with websockets.connect(uri) as websocket:
             while True:
@@ -78,7 +78,7 @@ def start_ws(symbols=symbols, interval="1m"):
                     df = pd.concat([df, new_df], ignore_index=True).tail(500).reset_index(drop=True)
                     symbol_candles[symbol] = df
 
-                    print(f"[{symbol.upper()}] {candle['timestamp']} Close: {candle['close']}")
+                    # print(f"[{symbol.upper()}] {candle['timestamp']} Close: {candle['close']}")
 
     # Fetch initial historical data first
     for sym in symbols:

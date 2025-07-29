@@ -22,6 +22,7 @@ django-allauth==65.10.0
 django-cors-headers==4.7.0
 django-plotly-dash==2.5.0
 djangorestframework==3.16.0
+djangorestframework_simplejwt==5.5.1
 dpd-static-support==0.0.5
 dpd_components==0.2.0
 exceptiongroup==1.3.0

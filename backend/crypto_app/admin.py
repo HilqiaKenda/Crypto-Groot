@@ -10,14 +10,11 @@ from .models import User
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    # list_display = ('username', 'email', 'subscription', 'subscription_start_date', 'subscription_end_date', 'usage_count')
-    list_display = ('username', 'email', 'usage_count')
+    list_display = ('username', 'email', 'subscription', 'subscription_start_date', 'subscription_end_date', 'usage_count')
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('usage_count', 'bio', 'profile_picture')}),
+        (None, {'fields': ('subscription', 'subscription_start_date', 'subscription_end_date', 'usage_count', 'bio', 'profile_picture')}),
     )
-    # fieldsets = UserAdmin.fieldsets + (
-    #     (None, {'fields': ('subscription', 'subscription_start_date', 'subscription_end_date', 'usage_count', 'bio', 'profile_picture')}),
-    # )
+    
 
 admin.site.register(User, CustomUserAdmin)
 

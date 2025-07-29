@@ -1,9 +1,11 @@
 from django.core.management.base import BaseCommand
 import asyncio, json
 import pandas as pd, websockets
-from crypto_app.indicators import *
+from dash_apps.indicators import *
+
 
 live_candles = pd.DataFrame(columns=['timestamp','open','high','low','close','volume'])
+
 
 async def binance_ws(symbol, interval):
     uri = f"wss://stream.binance.com:9443/ws/{symbol}@kline_{interval}"

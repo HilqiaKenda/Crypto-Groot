@@ -1,11 +1,19 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    # Extend as needed, e.g. add subscription, usage, etc.
     email = models.EmailField(unique=True)
-    # Add more fields as needed
+    subscription = models.ForeignKey("SubscriptionPlan", on_delete=models.CASCADE, null=True)
+    subscription_start_date = models.DateTimeField(default=timezone.now)
+    subscription_end_date = models.DateTimeField(null=True, blank=True)
+    usage_count = models.PositiveIntegerField(default=0)
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    bio = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.username
 
 
 class SubscriptionPlan(models.Model):

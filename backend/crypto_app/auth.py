@@ -1,13 +1,11 @@
 import jwt
 import datetime
-import asyncio
 from functools import wraps
 from django.http import JsonResponse
 from django.conf import settings
 from rest_framework_simplejwt.tokens import UntypedToken
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from tortoise.exceptions import DoesNotExist
 from django.contrib.auth import get_user_model
 from asgiref.sync import sync_to_async
 from django.http import JsonResponse
@@ -30,7 +28,6 @@ User = get_user_model()
 def jwt_auth_required(view_func):
     @wraps(view_func)
     async def _wrapped_view(request, *args, **kwargs):
-        await init()
         from .models import User
 
 

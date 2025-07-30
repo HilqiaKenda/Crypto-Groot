@@ -18,17 +18,24 @@ jobs:
       security-events: write
 
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up CodeQL
+        uses: github/codeql-action/setup-codeql@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3  
+        with:
+          languages: python, javascript
 
       ##  Cache CodeQL Database (To Speed Up Workflow)
-      # - name: Cache CodeQL Database
-      #   uses: actions/cache@v3
-        # with:
-        #   path: ${{ github.workspace }}/codeql-database
-        #   key: codeql-${{ runner.os }}-${{ hashFiles('**/*.js', '**/*.py') }}
-        #   restore-keys: |
-        #     codeql-${{ runner.os }}-
+      - name: Cache CodeQL Database
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/codeql-database
+          key: codeql-${{ runner.os }}-${{ hashFiles('**/*.js', '**/*.py') }}
+          restore-keys: |
+            codeql-${{ runner.os }}-
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

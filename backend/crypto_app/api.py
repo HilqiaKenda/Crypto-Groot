@@ -19,6 +19,14 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = "__all__"
 
+    def validate(self, data):
+        plan = data.get("plan")
+
+        if plan and not data.get("amount"):
+            data["amount"] = plan.price
+
+        return data
+
 
 class UserUsageLogSerializer(serializers.ModelSerializer):
     class Meta:

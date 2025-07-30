@@ -11,21 +11,34 @@ class Command(BaseCommand):
                 "name": "Free",
                 "price": 0.0,
                 "duration_days": 7,
-                "description": "Free trial plan",
+                "description": "Free 7-day trial with limited access to indicators and assets.",
             },
             {
-                "name": "Basic",
+                "name": "Basic Access",
                 "price": 9.99,
                 "duration_days": 30,
-                "description": "Basic monthly plan",
+                "description": "Ideal for casual traders. Access to real-time charts and up to 2 indicators for 3 assets.",
             },
             {
-                "name": "Pro",
+                "name": "Trader Launchpad",
+                "price": 24.99,
+                "duration_days": 90,
+                "description": "Perfect for beginners or short-term traders. Features: Real-time charts, limited indicators, up to 5 tradable assets.",
+            },
+            {
+                "name": "Momentum Pro",
+                "price": 54.99,
+                "duration_days": 180,
+                "description": "For growing traders needing deeper insight. Advanced indicators, 10+ tracked assets, strategy alerts.",
+            },
+            {
+                "name": "Elite Signals Club",
                 "price": 99.99,
                 "duration_days": 365,
-                "description": "Pro annual plan",
+                "description": "Full access for professional traders. All indicators, unlimited assets, AI signals, and priority support.",
             },
         ]
+
         for plan in plans:
             obj, created = SubscriptionPlan.objects.get_or_create(
                 name=plan["name"],

@@ -87,6 +87,8 @@ TEMPLATES = [
     },
 ]
 
+CSRF_COOKIE_SECURE = True
+
 WSGI_APPLICATION = "crypto_main.wsgi.application"
 
 # Database

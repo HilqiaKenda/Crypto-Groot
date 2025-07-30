@@ -2,7 +2,6 @@
 
 from django.urls import path
 from crypto_app.views import (
-    dashboard_view,
     UserListView,
     SubscriptionPlanListView,
     SubscriptionPlanDetailView,
@@ -15,7 +14,6 @@ from .api import router as api_router
 from django.urls import include
 
 urlpatterns = [
-    path("dashboard/", dashboard_view, name="dashboard"),
     path("users/", UserListView.as_view(), name="user-list"),
     path("plans/", SubscriptionPlanListView.as_view(), name="subscriptionplan-list"),
     path(

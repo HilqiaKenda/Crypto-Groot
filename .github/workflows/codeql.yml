@@ -15,8 +15,7 @@ jobs:
 
     permissions:
       actions: write
-      security-events: write  # Necessary for accessing security events
-
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -31,7 +30,7 @@ jobs:
 
       ##  Cache CodeQL Database (To Speed Up Workflow)
       - name: Cache CodeQL Database
-        uses: actions/cache@v3
+        uses: actions/cache@v3 
         with:
           path: ${{ github.workspace }}/codeql-database
           key: codeql-${{ runner.os }}-${{ hashFiles('**/*.js', '**/*.py') }}

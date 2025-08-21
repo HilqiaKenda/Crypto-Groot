@@ -1,35 +1,36 @@
 # urls.py
-
-from django.urls import path
+from django.urls import path, re_path
 from crypto_app.views import (
-    dashboard_view,
-    UserListView,
-    SubscriptionPlanListView,
-    SubscriptionPlanDetailView,
-    SubscriptionPlanCreateView,
-    PaymentListView,
-    UserUsageLogListView,
-    WatchlistListView,
+    PaymentView,
+    SubscriptionPlanView,
+    UserInfoView, 
+    RegisterUserView, 
+    LoginView, 
+    LogoutView, 
+    CookierefreshToken,
+    UserUsageLogView, 
+    WatchlistView
 )
-from .api import router as api_router
+
 from django.urls import include
+from . import consumers
+
 
 urlpatterns = [
-    path("dashboard/", dashboard_view, name="dashboard"),
-    path("users/", UserListView.as_view(), name="user-list"),
-    path("plans/", SubscriptionPlanListView.as_view(), name="subscriptionplan-list"),
-    path(
-        "plans/<int:pk>/",
-        SubscriptionPlanDetailView.as_view(),
-        name="subscriptionplan-detail",
-    ),
-    path(
-        "plans/create/",
-        SubscriptionPlanCreateView.as_view(),
-        name="subscriptionplan-create",
-    ),
-    path("payments/", PaymentListView.as_view(), name="payment-list"),
-    path("usage-logs/", UserUsageLogListView.as_view(), name="userusagelog-list"),
-    path("watchlist/", WatchlistListView.as_view(), name="watchlist-list"),
-    path("api/", include(api_router.urls)),
+    # Auth
+    path("register/", RegisterUserView.as_view(), name="register"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("refresh/", CookierefreshToken.as_view(), name="refresh"),
+    path("user-info/", UserInfoView.as_view(), name="user-info"),
+    
+    # services
+    path("payment/", PaymentView.as_view(), name="payment"),
+    path("subscription/", SubscriptionPlanView.as_view(), name="subscription"),
+    path("watch-list/", WatchlistView.as_view(), name="watchlist"),
+    path("usage-log/", UserUsageLogView.as_view(), name="usage-log"),
+]
+
+websocket_urlpatterns = [
+    re_path(r"ws/socket-server/", consumers.DashConsumer.as_asgi())
 ]

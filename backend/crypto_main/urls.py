@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("crypto/", include('crypto_app.urls')),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
-     path('add_to_session', add_to_session, name='add_to_session'),
+     path('add_to_session/', add_to_session, name='add_to_session'),
 ]

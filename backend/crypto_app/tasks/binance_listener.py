@@ -10,7 +10,7 @@ from .fetch_initial_candles import fetch_initial_candles
 
 def start_ws(symbols=SYMBOLS, interval="1m"):
     async def listen():
-        stream_names = [f"{s}@kline_{interval}" for s in symbols]
+        stream_names = [f"{symbol}@kline_{interval}" for symbol in symbols]
         streams = "/".join(stream_names)
         uri = f"wss://stream.binance.com:9443/stream?streams={streams}"
         # uri = f"wss://stream.binance.com:9443/ws/{symbol}@kline_{interval}"
@@ -19,6 +19,8 @@ def start_ws(symbols=SYMBOLS, interval="1m"):
         async with websockets.connect(uri) as websocket:
             while True:
                 msg = await websocket.recv()
+                websocket_response(msg)
+
                 data = json.loads(msg)
                 k = data['data']['k']
                 symbol = data['data']['s'].lower()
@@ -61,6 +63,14 @@ def start_ws_thread():
 threading.Thread(target=start_ws).start()
 
 
+
+# def websocket_response(response):
+#     response_in_json = json.loads(response)
+#     filename = "bin_json.json"
+#     with open(filename, 'w') as file:
+#         data = json.dump(response_in_json, file)
+
+#     return data
 
 
 # def start_ws(symbol="btcusdt", interval="1m"):

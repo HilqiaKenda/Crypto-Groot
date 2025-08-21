@@ -1,8 +1,17 @@
-from django.http import JsonResponse
 from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, DestroyAPIView, GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import LoginSerializer, UserSerializer, RegisterUserSerializer
+from .serializers import (
+    LoginSerializer, 
+    PaymentSerializer, 
+    SubscriptionPlanSerializer, 
+    UserSerializer, 
+    RegisterUserSerializer, 
+    UserUsageLogSerializer, 
+    WatchlistSerializer
+)
+from .models import Payment
+# from tasks import websocket_response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,19 +20,22 @@ from rest_framework_simplejwt.exceptions import InvalidToken
 
 # User views (list only for demonstration)
 class UserInfoView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated)
+    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
 
-class RegisterUserView(CreateAPIView):
+class RegisterUserView(APIView):
     serializer_class = RegisterUserSerializer
-    
+
 
 class LoginView(APIView):
 
     def post(self, request):
+        """
+        Custom login action to handle token generation and authentication
+        """
         serializer = LoginSerializer(data=request.data)
 
         # generate user token
@@ -92,4 +104,62 @@ class CookierefreshToken(TokenRefreshView):
             return response
         
         except InvalidToken as exce:
-            return Response({"error": "Invalid token"}, status=status.HTTP_401_UNAUTHORIZED) 
+            return Response({"error": "Invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+class WatchlistView(APIView):
+    serializer_class = WatchlistSerializer
+
+
+
+class SubscriptionPlanView(APIView):
+    serializer_class = SubscriptionPlanSerializer
+
+
+class PaymentView(APIView):
+    serializer_class = PaymentSerializer
+
+    def get(self, request):
+        payment = Payment.objects.all()
+        serializer = self.serializer_class(payment, many=True)
+
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data, status=status.HTTP_200_OK)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserUsageLogView(APIView):
+    serializer_class = UserUsageLogSerializer
+
+
+
+
+"""
+filename = os.path.join(os.path.dirname(__file__), 'bin_json.json')
+
+with open(filename) as file:
+    data = json.load(file)
+    print(data)
+
+    from django.http import JsonResponse
+from django.core.cache import cache
+
+def get_all_candle_data(request):
+
+    # View that retrieves all cached candle data (no parameters required).
+
+    # Retrieve all candle data from the cache
+    all_data = cache.get('candles_data')
+
+    if not all_data:
+        return JsonResponse({'error': 'No data available in the cache'}, status=404)
+
+    return JsonResponse({'candles': all_data})
+
+    
+"""
